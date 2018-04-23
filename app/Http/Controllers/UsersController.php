@@ -93,7 +93,7 @@ class UsersController extends Controller
     //删除
     public function destroy(User $user)
     {
-        $this->authorize('destory',$user);
+        $this->authorize('destroy',$user);
         $user->delete();
         session()->flash('success',"删除用户 {$user->name} 成功@！！");
         return back();
@@ -104,13 +104,11 @@ class UsersController extends Controller
     {
         $view = 'emails.confirm';
         $data = compact('user');
-        $from = 'yangping0607@163.com';
-        $name = 'young';
         $to = $user->email;
         $subject = "感谢注册MicroBlog 应用！请确认你的邮箱。";
 
-        Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
-            $message->from($from, $name)->to($to)->subject($subject);
+        Mail::send($view, $data, function ($message) use ($to, $subject) {
+            $message->to($to)->subject($subject);
         });
     }
 
